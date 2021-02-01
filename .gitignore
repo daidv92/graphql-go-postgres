@@ -17,4 +17,3 @@ desktop.ini
 # hidden files created by vagrant
 .vagrant
 node_modules
-data*
