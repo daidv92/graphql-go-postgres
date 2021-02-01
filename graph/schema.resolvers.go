@@ -14,7 +14,15 @@ func (r *mutationResolver) CreateMember(ctx context.Context, input model.NewMemb
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *mutationResolver) CreateSkill(ctx context.Context, input *model.NewSkill) (*model.Skill, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Members(ctx context.Context) ([]*model.Member, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Skills(ctx context.Context) ([]*model.Skill, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

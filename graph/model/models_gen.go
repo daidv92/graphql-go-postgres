@@ -9,6 +9,10 @@ type Member struct {
 }
 
 type NewMember struct {
+	Name *string `json:"name"`
+}
+
+type NewSkill struct {
 	Category *string `json:"category"`
 	Name     *string `json:"name"`
 	Exp      *string `json:"exp"`

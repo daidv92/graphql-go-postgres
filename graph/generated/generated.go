@@ -51,10 +51,12 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		CreateMember func(childComplexity int, input model.NewMember) int
+		CreateSkill  func(childComplexity int, input *model.NewSkill) int
 	}
 
 	Query struct {
 		Members func(childComplexity int) int
+		Skills  func(childComplexity int) int
 	}
 
 	Skill struct {
@@ -67,9 +69,11 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	CreateMember(ctx context.Context, input model.NewMember) (*model.Member, error)
+	CreateSkill(ctx context.Context, input *model.NewSkill) (*model.Skill, error)
 }
 type QueryResolver interface {
 	Members(ctx context.Context) ([]*model.Member, error)
+	Skills(ctx context.Context) ([]*model.Skill, error)
 }
 
 type executableSchema struct {
@@ -120,12 +124,31 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateMember(childComplexity, args["input"].(model.NewMember)), true
 
+	case "Mutation.createSkill":
+		if e.complexity.Mutation.CreateSkill == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createSkill_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateSkill(childComplexity, args["input"].(*model.NewSkill)), true
+
 	case "Query.members":
 		if e.complexity.Query.Members == nil {
 			break
 		}
 
 		return e.complexity.Query.Members(childComplexity), true
+
+	case "Query.skills":
+		if e.complexity.Query.Skills == nil {
+			break
+		}
+
+		return e.complexity.Query.Skills(childComplexity), true
 
 	case "Skill.category":
 		if e.complexity.Skill.Category == nil {
@@ -238,9 +261,14 @@ type Skill {
 
 type Query {
   members: [Member!]!
+  skills: [Skill]
 }
 
 input NewMember {
+  name: String
+}
+
+input NewSkill {
   category: String
   name: String
   exp: String
@@ -248,6 +276,7 @@ input NewMember {
 
 type Mutation {
   createMember(input: NewMember!): Member!
+  createSkill(input: NewSkill): Skill
 }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -263,6 +292,21 @@ func (ec *executionContext) field_Mutation_createMember_args(ctx context.Context
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNNewMember2dexpᚋgraphᚋmodelᚐNewMember(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createSkill_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.NewSkill
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalONewSkill2ᚖdexpᚋgraphᚋmodelᚐNewSkill(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -465,6 +509,45 @@ func (ec *executionContext) _Mutation_createMember(ctx context.Context, field gr
 	return ec.marshalNMember2ᚖdexpᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Mutation_createSkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createSkill_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateSkill(rctx, args["input"].(*model.NewSkill))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Skill)
+	fc.Result = res
+	return ec.marshalOSkill2ᚖdexpᚋgraphᚋmodelᚐSkill(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_members(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -498,6 +581,38 @@ func (ec *executionContext) _Query_members(ctx context.Context, field graphql.Co
 	res := resTmp.([]*model.Member)
 	fc.Result = res
 	return ec.marshalNMember2ᚕᚖdexpᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_skills(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Skills(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Skill)
+	fc.Result = res
+	return ec.marshalOSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkill(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1795,6 +1910,26 @@ func (ec *executionContext) unmarshalInputNewMember(ctx context.Context, obj int
 
 	for k, v := range asMap {
 		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputNewSkill(ctx context.Context, obj interface{}) (model.NewSkill, error) {
+	var it model.NewSkill
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
 		case "category":
 			var err error
 
@@ -1884,6 +2019,8 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createSkill":
+			out.Values[i] = ec._Mutation_createSkill(ctx, field)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1922,6 +2059,17 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
+				return res
+			})
+		case "skills":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_skills(ctx, field)
 				return res
 			})
 		case "__type":
@@ -2569,6 +2717,14 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	return graphql.MarshalBoolean(*v)
+}
+
+func (ec *executionContext) unmarshalONewSkill2ᚖdexpᚋgraphᚋmodelᚐNewSkill(ctx context.Context, v interface{}) (*model.NewSkill, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputNewSkill(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalOSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {

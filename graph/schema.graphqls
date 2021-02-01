@@ -17,9 +17,14 @@ type Skill {
 
 type Query {
   members: [Member!]!
+  skills: [Skill]
 }
 
 input NewMember {
+  name: String
+}
+
+input NewSkill {
   category: String
   name: String
   exp: String
@@ -27,4 +32,5 @@ input NewMember {
 
 type Mutation {
   createMember(input: NewMember!): Member!
+  createSkill(input: NewSkill): Skill
 }
