@@ -2,32 +2,37 @@
 #
 # https://gqlgen.com/getting-started/
 
+type Query {
+    members(input: Params): [Member]
+    skills(input: Params): [Skill]
+}
+
+input Params {
+    ids: [ID!]
+}
+
 type Member {
   id: ID!
-  name: String!
+  name: String
   skill: [Skill]
 }
 
 type Skill {
   id: ID!
-  category: String!
-  name: String!
-  exp: String!
-}
-
-type Query {
-  members: [Member!]!
-  skills: [Skill!]!
+  category: String
+  name: String
+  exp: Int
 }
 
 input NewMember {
-  name: String!
+  name: String
 }
 
 input NewSkill {
-  category: String!
-  name: String!
-  exp: String!
+  category: String
+  name: String
+  exp: Int
+  memberId: Int
 }
 
 type Mutation {

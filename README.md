@@ -30,22 +30,64 @@ $ go run server.go
 # Test
 http://localhost:3004/
 
+Query createMember & createSkill
+```
+mutation createMember {
+  createMember(input:{name:"DaiDV"}) {
+    id
+    name
+  }
+}
+
+mutation createSkill {
+  createSkill(input:{category:"IT", name:"PHP", exp:7, memberId: 1}) {
+    category
+    name
+    exp
+  }
+}
+```
 Query to get the all Members
 ```
-query members {
-  members{
-      id
-      name
+query findMember {
+  members(input: {}) {
+    id
+    name
+    skill {
+       category
+       name
+       exp
+    }
   }
 }
 ```
 Query to get the all Skills
 ```
-query skills {
-  skills{
+query findSkill {
+  skills(input: {}){
+    category
+    name
+    exp
+  }
+}
+```
+Query to get the all Members & Skills
+```
+query findAll{
+  members(input: {ids: [1,2]}) {
+    id
+    name
+    skill {
       category
       name
       exp
+    }
+  }
+  skills(input: {ids: [1,2,3,4,5]}) {
+    id
+    category
+    name
+    exp
   }
 }
 ```

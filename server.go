@@ -1,15 +1,15 @@
 package main
 
 import (
-	"github.com/daiv2/graphql-go-postgres/graph"
-	"github.com/daiv2/graphql-go-postgres/graph/generated"
 	"log"
 	"net/http"
 	"os"
-	database "github.com/daiv2/graphql-go-postgres/database"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/daidv2/graphql-go-postgres/graph"
+	"github.com/daidv2/graphql-go-postgres/graph/generated"
+	"github.com/daidv2/graphql-go-postgres/database"
 )
 
 const defaultPort = "3004"

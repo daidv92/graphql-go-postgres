@@ -3,24 +3,29 @@
 package model
 
 type Member struct {
-	ID    int      `json:"id"`
-	Name  string   `json:"name"`
+	ID    string   `json:"id"`
+	Name  *string  `json:"name"`
 	Skill []*Skill `json:"skill"`
 }
 
 type NewMember struct {
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }
 
 type NewSkill struct {
-	Category string `json:"category"`
-	Name     string `json:"name"`
-	Exp      string `json:"exp"`
+	Category *string `json:"category"`
+	Name     *string `json:"name"`
+	Exp      *int    `json:"exp"`
+	MemberID *int    `json:"memberId"`
+}
+
+type Params struct {
+	Ids []string `json:"ids"`
 }
 
 type Skill struct {
-	ID       int    `json:"id"`
-	Category string `json:"category"`
-	Name     string `json:"name"`
-	Exp      string `json:"exp"`
+	ID       string  `json:"id"`
+	Category *string `json:"category"`
+	Name     *string `json:"name"`
+	Exp      *int    `json:"exp"`
 }

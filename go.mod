@@ -1,4 +1,4 @@
-module github.com/daiv2/graphql-go-postgres
+module github.com/daidv2/graphql-go-postgres
 
 go 1.14
 
