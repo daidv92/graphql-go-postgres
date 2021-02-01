@@ -23,12 +23,12 @@ func (r *queryResolver) Members(ctx context.Context) ([]*model.Member, error) {
 
 	user1 := &model.Member{
 		ID:   "1",
-		Name: "Dai",
+		Name: "DaiDV",
 	}
 
 	user2 := &model.Member{
 		ID:   "2",
-		Name: "Dinh",
+		Name: "DinhLV",
 	}
 
 	res = append(res, user1)

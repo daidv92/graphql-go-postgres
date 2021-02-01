@@ -30,7 +30,7 @@ $ go run server.go
 # Test
 http://localhost:3004/
 
-Members
+Query to get the all Members
 ```
 query members {
   members{
@@ -39,7 +39,7 @@ query members {
   }
 }
 ```
-Skills
+Query to get the all Skills
 ```
 query skills {
   skills{
