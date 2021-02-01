@@ -23,7 +23,7 @@ $ go get github.com/lib/pq
 8. Enter "password" for password
 9. Click save
 
-# Start it
+# Start the GraphQL server
 > $ docker-compose exec server bash\
 $ go run server.go
 

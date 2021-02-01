@@ -17,7 +17,7 @@ type Skill {
 
 type Query {
   members: [Member!]!
-  skills: [Skill]
+  skills: [Skill!]!
 }
 
 input NewMember {
@@ -32,5 +32,5 @@ input NewSkill {
 
 type Mutation {
   createMember(input: NewMember!): Member!
-  createSkill(input: NewSkill): Skill
+  createSkill(input: NewSkill!): Skill!
 }

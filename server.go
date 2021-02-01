@@ -1,11 +1,12 @@
 package main
 
 import (
-	"dexp/graph"
-	"dexp/graph/generated"
+	"github.com/daiv2/graphql-go-postgres/graph"
+	"github.com/daiv2/graphql-go-postgres/graph/generated"
 	"log"
 	"net/http"
 	"os"
+	database "github.com/daiv2/graphql-go-postgres/database"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -14,6 +15,9 @@ import (
 const defaultPort = "3004"
 
 func main() {
+	// start connect database
+	database.OpenDB()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

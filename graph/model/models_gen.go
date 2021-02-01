@@ -3,7 +3,7 @@
 package model
 
 type Member struct {
-	ID    string   `json:"id"`
+	ID    int      `json:"id"`
 	Name  string   `json:"name"`
 	Skill []*Skill `json:"skill"`
 }
@@ -19,7 +19,7 @@ type NewSkill struct {
 }
 
 type Skill struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Category string `json:"category"`
 	Name     string `json:"name"`
 	Exp      string `json:"exp"`

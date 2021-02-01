@@ -5,16 +5,35 @@ package graph
 
 import (
 	"context"
-	"dexp/graph/generated"
-	"dexp/graph/model"
+	"github.com/daiv2/graphql-go-postgres/graph/generated"
+	"github.com/daiv2/graphql-go-postgres/graph/model"
 	"fmt"
+	database "github.com/daiv2/graphql-go-postgres/database"
 )
 
 func (r *mutationResolver) CreateMember(ctx context.Context, input model.NewMember) (*model.Member, error) {
-	panic(fmt.Errorf("not implemented"))
+	m := &model.Member{
+		Name: input.Name,
+	}
+
+	// insert into database
+	result, err := database.Db.Query("INSERT INTO `members` (name) VALUES(?)", m.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	lastId, err := result.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	m.ID = int(lastId)
+
+	return m, nill
 }
 
-func (r *mutationResolver) CreateSkill(ctx context.Context, input *model.NewSkill) (*model.Skill, error) {
+func (r *mutationResolver) CreateSkill(ctx context.Context, input model.NewSkill) (*model.Skill, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -22,12 +41,12 @@ func (r *queryResolver) Members(ctx context.Context) ([]*model.Member, error) {
 	var res []*model.Member
 
 	user1 := &model.Member{
-		ID:   "1",
+		ID:   1,
 		Name: "DaiDV",
 	}
 
 	user2 := &model.Member{
-		ID:   "2",
+		ID:   2,
 		Name: "DinhLV",
 	}
 
@@ -40,21 +59,21 @@ func (r *queryResolver) Skills(ctx context.Context) ([]*model.Skill, error) {
 	var res []*model.Skill
 
 	skill1 := &model.Skill{
-		Category:   "IT",
-		Name: "PHP",
-		Exp: "7",
+		Category: "IT",
+		Name:     "PHP",
+		Exp:      "7",
 	}
 
 	skill2 := &model.Skill{
-		Category:   "IT",
-		Name: "JAVA",
-		Exp: "10",
+		Category: "IT",
+		Name:     "JAVA",
+		Exp:      "10",
 	}
 
 	skill3 := &model.Skill{
-		Category:   "Design",
-		Name: "DD",
-		Exp: "2",
+		Category: "Design",
+		Name:     "DD",
+		Exp:      "2",
 	}
 
 	res = append(res, skill1)
