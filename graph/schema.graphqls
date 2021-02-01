@@ -4,15 +4,15 @@
 
 type Member {
   id: ID!
-  name: String
+  name: String!
   skill: [Skill]
 }
 
 type Skill {
   id: ID!
-  category: String
-  name: String
-  exp: String
+  category: String!
+  name: String!
+  exp: String!
 }
 
 type Query {
@@ -21,13 +21,13 @@ type Query {
 }
 
 input NewMember {
-  name: String
+  name: String!
 }
 
 input NewSkill {
-  category: String
-  name: String
-  exp: String
+  category: String!
+  name: String!
+  exp: String!
 }
 
 type Mutation {

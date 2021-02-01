@@ -17,3 +17,24 @@ Browse to localhost:5050 > Click add new server > Enter any name > Click on conn
 
 # Start it
 go run server.go
+
+# Test
+Members
+```
+query members {
+  members{
+      id
+      name
+  }
+}
+```
+Skills
+```
+query skills {
+  skills{
+      category
+      name
+      exp
+  }
+}
+```

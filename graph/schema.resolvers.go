@@ -19,11 +19,48 @@ func (r *mutationResolver) CreateSkill(ctx context.Context, input *model.NewSkil
 }
 
 func (r *queryResolver) Members(ctx context.Context) ([]*model.Member, error) {
-	panic(fmt.Errorf("not implemented"))
+	var res []*model.Member
+
+	user1 := &model.Member{
+		ID:   "1",
+		Name: "Dai",
+	}
+
+	user2 := &model.Member{
+		ID:   "2",
+		Name: "Dinh",
+	}
+
+	res = append(res, user1)
+	res = append(res, user2)
+	return res, nil
 }
 
 func (r *queryResolver) Skills(ctx context.Context) ([]*model.Skill, error) {
-	panic(fmt.Errorf("not implemented"))
+	var res []*model.Skill
+
+	skill1 := &model.Skill{
+		Category:   "IT",
+		Name: "PHP",
+		Exp: "7",
+	}
+
+	skill2 := &model.Skill{
+		Category:   "IT",
+		Name: "JAVA",
+		Exp: "10",
+	}
+
+	skill3 := &model.Skill{
+		Category:   "Design",
+		Name: "DD",
+		Exp: "2",
+	}
+
+	res = append(res, skill1)
+	res = append(res, skill2)
+	res = append(res, skill3)
+	return res, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
