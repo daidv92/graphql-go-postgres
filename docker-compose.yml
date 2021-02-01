@@ -3,13 +3,19 @@ version: "3.7"
 services:
   database:
     image: postgres
-    restart: always
-    env_file:
-      - .env
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: postgres-dev
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
       - data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - "5050:5050"
 
   server:
     build:
