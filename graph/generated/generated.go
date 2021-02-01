@@ -5,7 +5,6 @@ package generated
 import (
 	"bytes"
 	"context"
-	"github.com/daiv2/graphql-go-postgres/graph/model"
 	"errors"
 	"strconv"
 	"sync"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/daiv2/graphql-go-postgres/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -249,7 +249,7 @@ var sources = []*ast.Source{
 type Member {
   id: ID!
   name: String!
-  skill: [Skill!]!
+  skill: [Skill]
 }
 
 type Skill {
@@ -291,7 +291,7 @@ func (ec *executionContext) field_Mutation_createMember_args(ctx context.Context
 	var arg0 model.NewMember
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewMember2dexpᚋgraphᚋmodelᚐNewMember(ctx, tmp)
+		arg0, err = ec.unmarshalNNewMember2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐNewMember(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -306,7 +306,7 @@ func (ec *executionContext) field_Mutation_createSkill_args(ctx context.Context,
 	var arg0 model.NewSkill
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewSkill2dexpᚋgraphᚋmodelᚐNewSkill(ctx, tmp)
+		arg0, err = ec.unmarshalNNewSkill2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐNewSkill(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -463,14 +463,11 @@ func (ec *executionContext) _Member_skill(ctx context.Context, field graphql.Col
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.([]*model.Skill)
 	fc.Result = res
-	return ec.marshalNSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
+	return ec.marshalOSkill2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createMember(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -512,7 +509,7 @@ func (ec *executionContext) _Mutation_createMember(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.Member)
 	fc.Result = res
-	return ec.marshalNMember2ᚖdexpᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
+	return ec.marshalNMember2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMember(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createSkill(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -554,7 +551,7 @@ func (ec *executionContext) _Mutation_createSkill(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Skill)
 	fc.Result = res
-	return ec.marshalNSkill2ᚖdexpᚋgraphᚋmodelᚐSkill(ctx, field.Selections, res)
+	return ec.marshalNSkill2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_members(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -589,7 +586,7 @@ func (ec *executionContext) _Query_members(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.([]*model.Member)
 	fc.Result = res
-	return ec.marshalNMember2ᚕᚖdexpᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
+	return ec.marshalNMember2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMemberᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_skills(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -624,7 +621,7 @@ func (ec *executionContext) _Query_skills(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Skill)
 	fc.Result = res
-	return ec.marshalNSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
+	return ec.marshalNSkill2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2012,9 +2009,6 @@ func (ec *executionContext) _Member(ctx context.Context, sel ast.SelectionSet, o
 			}
 		case "skill":
 			out.Values[i] = ec._Member_skill(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2437,11 +2431,11 @@ func (ec *executionContext) marshalNID2int(ctx context.Context, sel ast.Selectio
 	return res
 }
 
-func (ec *executionContext) marshalNMember2dexpᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v model.Member) graphql.Marshaler {
 	return ec._Member(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNMember2ᚕᚖdexpᚋgraphᚋmodelᚐMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMemberᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Member) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -2465,7 +2459,7 @@ func (ec *executionContext) marshalNMember2ᚕᚖdexpᚋgraphᚋmodelᚐMember�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNMember2ᚖdexpᚋgraphᚋmodelᚐMember(ctx, sel, v[i])
+			ret[i] = ec.marshalNMember2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMember(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -2478,7 +2472,7 @@ func (ec *executionContext) marshalNMember2ᚕᚖdexpᚋgraphᚋmodelᚐMember�
 	return ret
 }
 
-func (ec *executionContext) marshalNMember2ᚖdexpᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
+func (ec *executionContext) marshalNMember2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐMember(ctx context.Context, sel ast.SelectionSet, v *model.Member) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -2488,21 +2482,21 @@ func (ec *executionContext) marshalNMember2ᚖdexpᚋgraphᚋmodelᚐMember(ctx 
 	return ec._Member(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNNewMember2dexpᚋgraphᚋmodelᚐNewMember(ctx context.Context, v interface{}) (model.NewMember, error) {
+func (ec *executionContext) unmarshalNNewMember2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐNewMember(ctx context.Context, v interface{}) (model.NewMember, error) {
 	res, err := ec.unmarshalInputNewMember(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewSkill2dexpᚋgraphᚋmodelᚐNewSkill(ctx context.Context, v interface{}) (model.NewSkill, error) {
+func (ec *executionContext) unmarshalNNewSkill2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐNewSkill(ctx context.Context, v interface{}) (model.NewSkill, error) {
 	res, err := ec.unmarshalInputNewSkill(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNSkill2dexpᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v model.Skill) graphql.Marshaler {
+func (ec *executionContext) marshalNSkill2githubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v model.Skill) graphql.Marshaler {
 	return ec._Skill(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkillᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {
+func (ec *executionContext) marshalNSkill2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkillᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -2526,7 +2520,7 @@ func (ec *executionContext) marshalNSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkillᚄ(
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNSkill2ᚖdexpᚋgraphᚋmodelᚐSkill(ctx, sel, v[i])
+			ret[i] = ec.marshalNSkill2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -2539,7 +2533,7 @@ func (ec *executionContext) marshalNSkill2ᚕᚖdexpᚋgraphᚋmodelᚐSkillᚄ(
 	return ret
 }
 
-func (ec *executionContext) marshalNSkill2ᚖdexpᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v *model.Skill) graphql.Marshaler {
+func (ec *executionContext) marshalNSkill2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v *model.Skill) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -2815,6 +2809,53 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	return graphql.MarshalBoolean(*v)
+}
+
+func (ec *executionContext) marshalOSkill2ᚕᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOSkill2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalOSkill2ᚖgithubᚗcomᚋdaiv2ᚋgraphqlᚑgoᚑpostgresᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v *model.Skill) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Skill(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {

@@ -5,9 +5,10 @@ package graph
 
 import (
 	"context"
+	"fmt"
+
 	"github.com/daiv2/graphql-go-postgres/graph/generated"
 	"github.com/daiv2/graphql-go-postgres/graph/model"
-	"fmt"
 	database "github.com/daiv2/graphql-go-postgres/database"
 )
 
@@ -17,7 +18,7 @@ func (r *mutationResolver) CreateMember(ctx context.Context, input model.NewMemb
 	}
 
 	// insert into database
-	result, err := database.Db.Query("INSERT INTO `members` (name) VALUES(?)", m.Name)
+	result, err := database.Exec("INSERT INTO `members` (name) VALUES(?)", m.Name)
 
 	if err != nil {
 		return nil, err
