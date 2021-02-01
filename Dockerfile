@@ -10,3 +10,6 @@ ADD . /go/src/app
 RUN go get app
 RUN go install
 ENTRYPOINT ["/go/bin/app"]
+
+EXPOSE 8080
+EXPOSE 3004
