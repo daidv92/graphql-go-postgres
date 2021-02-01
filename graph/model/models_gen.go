@@ -2,19 +2,21 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Member struct {
+	ID    string   `json:"id"`
+	Name  *string  `json:"name"`
+	Skill []*Skill `json:"skill"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type NewMember struct {
+	Category *string `json:"category"`
+	Name     *string `json:"name"`
+	Exp      *string `json:"exp"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Skill struct {
+	ID       string  `json:"id"`
+	Category *string `json:"category"`
+	Name     *string `json:"name"`
+	Exp      *string `json:"exp"`
 }

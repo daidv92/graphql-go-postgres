@@ -10,11 +10,11 @@ import (
 	"fmt"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateMember(ctx context.Context, input model.NewMember) (*model.Member, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *queryResolver) Members(ctx context.Context) ([]*model.Member, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
