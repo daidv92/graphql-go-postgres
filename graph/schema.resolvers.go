@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"strconv"
 
 	"github.com/daidv2/graphql-go-postgres/database"
 	"github.com/daidv2/graphql-go-postgres/graph/generated"
@@ -53,22 +54,47 @@ func (r *mutationResolver) CreateSkill(ctx context.Context, input model.NewSkill
 }
 
 func (r *queryResolver) Members(ctx context.Context, input *model.Params) ([]*model.Member, error) {
-	var stmt string
+	// prepare query
+	var stmt1 string
+	var stmt2 string
 	if input.Ids != nil {
-		stmt = "SELECT id, name FROM members WHERE id IN (" + strings.Join(input.Ids, ",") + ")"
+		stmt2 = "SELECT id, name FROM members WHERE id IN (" + strings.Join(input.Ids, ",") + ")"
+		stmt1 = "SELECT id, category, name, exp, member_id FROM skills WHERE member_id IN (" + strings.Join(input.Ids, ",") + ")"
 	} else {
-		stmt = "SELECT id, name FROM members"
+		stmt2 = "SELECT id, name FROM members"
+		stmt1 = "SELECT id, category, name, exp, member_id FROM skills"
 	}
 
-	rows, err := database.DB.Query(stmt)
+	// get all skills
+	rows1, err := database.DB.Query(stmt1)
+	checkErr(err)
+	skillsByMemberId := map[int64][]*model.Skill{}
+	var memberId int64
+	for rows1.Next() {
+		skill := model.Skill{}
+		err := rows1.Scan(&skill.ID, &skill.Name, &skill.Category, &skill.Exp, &memberId)
+		checkErr(err)
+		skillsByMemberId[memberId] = append(skillsByMemberId[memberId], &skill)
+	}
+
+	skills := make([][]*model.Skill, len(input.Ids))
+	for i, id := range input.Ids {
+		n, _ := strconv.ParseInt(id, 10, 64)
+		skills[i] = skillsByMemberId[n]
+		i++
+	}
+
+	// get all members
+	rows2, err := database.DB.Query(stmt2)
 	checkErr(err)
 	var members []*model.Member
-
-	for rows.Next() {
+	for rows2.Next() {
 		member := &model.Member{}
 
-		err = rows.Scan(&member.ID, &member.Name)
+		err = rows2.Scan(&member.ID, &member.Name)
 		checkErr(err)
+		n, _ := strconv.ParseInt(member.ID, 10, 64)
+		member.Skill = skillsByMemberId[n]
 		members = append(members, member)
 	}
 
